@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ using System.Windows.Shapes;
 namespace CalculatorWpf
 {
     /// <summary>
-    /// Класс для реализации логики взаимодействия для окном MainWindow.xaml
+    /// Класс для реализации логики взаимодействия с окном MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -43,7 +44,13 @@ namespace CalculatorWpf
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
             var str = (string) ((Button) e.OriginalSource).Content;
-            textLabel.Text = str;
+            if (str == "AC") textLabel.Text = "";
+            else if (str == "=")
+            {
+                object value = new DataTable().Compute(textLabel.Text, null);
+                textLabel.Text = value.ToString();
+            }
+            else textLabel.Text += str;
         }
     }
 }
